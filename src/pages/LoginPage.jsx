@@ -12,7 +12,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form login:", form);
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/login",
@@ -23,7 +22,8 @@ export default function LoginPage() {
         const { user, token } = res.data;
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", token);
-        navigate("/dashboard");
+
+        navigate("/welcome");
       } else {
         setError("Login gagal: respon tidak valid dari server");
       }
@@ -34,38 +34,44 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow p-6 rounded w-full max-w-md space-y-4"
-      >
-        <h2 className="text-xl font-semibold text-center">Login Admin/User</h2>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <input
-          type="text"
-          name="username"
-          value={form.username}
-          onChange={handleChange}
-          placeholder="Username"
-          className="w-full border p-2 rounded"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          value={form.password}
-          onChange={handleChange}
-          placeholder="Password"
-          className="w-full border p-2 rounded"
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded"
-        >
-          Login
-        </button>
-      </form>
+    <div className="min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center px-4">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-8 space-y-6 animate-fadeIn">
+        {/* Logo */}
+        <div className="flex justify-center">
+          <img src="/cinemaxxi.png" alt="Logo" className="h-14" />
+        </div>
+        <br />
+        {error && <p className="text-red-500 text-center text-sm">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            placeholder="Username"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded transition duration-200"
+          >
+            Login
+          </button>
+        </form>
+        <p className="text-xs text-gray-400 text-center">
+          &copy; {new Date().getFullYear()} Summarecon XXI. All rights reserved.
+        </p>
+      </div>
     </div>
   );
 }

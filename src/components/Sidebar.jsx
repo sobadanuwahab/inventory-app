@@ -1,11 +1,18 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRightFromBracket,
+  faTicket,
+  faChartBar,
+  faFileLines,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const [openTransaksi, setOpenTransaksi] = useState(true);
   const [user, setUser] = useState({ username: "Guest", role: "" });
 
   const isActive = (path) => location.pathname.startsWith(path);
@@ -34,13 +41,25 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-64 bg-white shadow-lg min-h-screen flex flex-col">
-      {/* Header */}
-      <div className="bg-blue-800 text-white p-4 text-center font-bold text-lg">
-        Inventory Barang
+    <aside
+      className={`fixed z-50 top-0 left-0 w-64 bg-white shadow-lg min-h-screen flex flex-col transform transition-transform duration-300 ease-in-out
+    ${
+      isOpen ? "translate-x-0" : "-translate-x-full"
+    } md:relative md:translate-x-0`}
+    >
+      {/* Close button (mobile) */}
+      <div className="md:hidden flex justify-end p-3">
+        <button onClick={onClose} className="text-xl text-slate-600">
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
       </div>
 
-      {/* Profile Section */}
+      {/* Logo Header */}
+      <div className="bg-slate-600 py-4 px-5 flex items-center justify-center h-20">
+        <img src="/cinemaxxi.png" alt="Logo" className="h-9" />
+      </div>
+
+      {/* Profile */}
       <div className="p-4 flex flex-col items-center text-center border-b">
         <img
           src={`https://ui-avatars.com/api/?name=${user.username}`}
@@ -57,87 +76,49 @@ export default function Sidebar() {
       <nav className="flex-1 p-4 text-sm">
         <Link
           to="/dashboard"
-          className={`block px-4 py-2 rounded hover:bg-blue-100 mb-1 ${
-            isActive("/dashboard") ? "bg-blue-600 text-white font-semibold" : ""
-          }`}
-        >
-          📊 Dashboard
-        </Link>
-
-        {/* Transaksi */}
-        <div>
-          <button
-            onClick={() => setOpenTransaksi(!openTransaksi)}
-            className="w-full text-left px-4 py-2 rounded hover:bg-blue-100 mb-1 font-medium"
-          >
-            🔁 Activity
-          </button>
-          {openTransaksi && (
-            <div className="ml-4 mt-1 space-y-1 text-gray-700">
-              <Link
-                to="/barang-masuk/input"
-                className={`block px-3 py-1 rounded hover:bg-gray-100 ${
-                  isActive("/barang-masuk/input")
-                    ? "bg-blue-100 text-blue-600 font-semibold"
-                    : ""
-                }`}
-              >
-                • Input Barang Masuk
-              </Link>
-              <Link
-                to="/barang-masuk/laporan"
-                className={`block px-3 py-1 rounded hover:bg-gray-100 ${
-                  isActive("/barang-masuk/laporan")
-                    ? "bg-blue-100 text-blue-600 font-semibold"
-                    : ""
-                }`}
-              >
-                • Laporan Barang Masuk
-              </Link>
-              <Link
-                to="/barang-keluar/input"
-                className={`block px-3 py-1 rounded hover:bg-gray-100 ${
-                  isActive("/barang-keluar/input")
-                    ? "bg-blue-100 text-blue-600 font-semibold"
-                    : ""
-                }`}
-              >
-                • Input Barang Keluar
-              </Link>
-              <Link
-                to="/barang-keluar/laporan"
-                className={`block px-3 py-1 rounded hover:bg-gray-100 ${
-                  isActive("/barang-keluar/laporan")
-                    ? "bg-blue-100 text-blue-600 font-semibold"
-                    : ""
-                }`}
-              >
-                • Laporan Barang Keluar
-              </Link>
-            </div>
-          )}
-        </div>
-
-        {/* Laporan Umum */}
-        <Link
-          to="/laporan/stok"
-          className={`block px-4 py-2 mt-3 rounded hover:bg-blue-100 ${
-            isActive("/laporan/stok")
-              ? "bg-blue-600 text-white font-semibold"
+          className={`block px-4 py-2 rounded hover:bg-slate-400 mb-1 ${
+            isActive("/dashboard")
+              ? "bg-slate-500 text-white font-semibold"
               : ""
           }`}
         >
-          📄 Laporan Stok
+          <FontAwesomeIcon icon={faChartBar} className="mr-2" />
+          Dashboard
+        </Link>
+
+        <Link
+          to="/ticket/input"
+          className={`block px-4 py-2 mt-2 rounded hover:bg-slate-400 ${
+            isActive("/ticket/input")
+              ? "bg-slate-500 text-white font-semibold"
+              : ""
+          }`}
+        >
+          <FontAwesomeIcon icon={faTicket} className="mr-2" />
+          Input Tiket Penonton
+        </Link>
+
+        <Link
+          to="/ticket/laporan"
+          className={`block px-4 py-2 mt-1 rounded hover:bg-slate-400 ${
+            isActive("/ticket/laporan")
+              ? "bg-slate-500 text-white font-semibold"
+              : ""
+          }`}
+        >
+          <FontAwesomeIcon icon={faFileLines} className="mr-2" />
+          Laporan Tiket Penonton
         </Link>
       </nav>
 
-      {/* Logout */}
-      <div className="p-4 border-t text-sm">
+      {/* Logout - Diletakkan paling bawah */}
+      <div className="bg-slate-600 border-t h-16 flex items-center justify-center mt-auto">
         <button
           onClick={handleLogout}
-          className="text-red-600 hover:underline w-full text-left"
+          className="text-white text-sm hover:underline"
         >
-          🔓 Logout
+          <FontAwesomeIcon icon={faRightFromBracket} className="mr-1" />
+          Logout
         </button>
       </div>
     </aside>

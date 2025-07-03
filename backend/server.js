@@ -8,6 +8,8 @@ import barangMasukRoutes from "./routes/barangMasuk.js";
 import barangKeluarRoutes from "./routes/barangKeluar.js";
 import authRoutes from "./routes/auth.js";
 import laporanRoutes from "./routes/laporan.js";
+import ticketRoutes from "./routes/ticket.js";
+import studioRoutes from "./routes/studio.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +21,8 @@ app.use("/api/masuk", barangMasukRoutes);
 app.use("/api/keluar", barangKeluarRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/laporan", laporanRoutes);
+app.use("/api/ticket", ticketRoutes);
+app.use("/api/studio", studioRoutes);
 
 app.get("/", (req, res) => {
   res.send("Inventory API is running!");

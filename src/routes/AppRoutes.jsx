@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute"; // ✅ di folder yang sama
 
 // Halaman Umum
-import LandingPage from "../pages/LandingPage";
+import WelcomeScreen from "../pages/WelcomeScreen";
 import LoginPage from "../pages/LoginPage";
 
 // Halaman Login-Protected
@@ -12,6 +12,8 @@ import BarangMasukReportPage from "../pages/BarangMasukReportPage";
 import BarangKeluarInputPage from "../pages/BarangKeluarInputPage";
 import BarangKeluarReportPage from "../pages/BarangKeluarReportPage";
 import LaporanStokPage from "../pages/LaporanStokPage";
+import TicketMasukInputPage from "../pages/TicketMasukInputPage";
+import TicketMasukLaporanPage from "../pages/TicketMasukLaporanPage";
 
 // Fallback
 import NotFound from "../pages/NotFound";
@@ -20,7 +22,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       {/* Halaman Umum */}
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/welcome" element={<WelcomeScreen />} />
       <Route path="/login" element={<LoginPage />} />
 
       {/* Halaman Terproteksi */}
@@ -70,6 +72,24 @@ export default function AppRoutes() {
         element={
           <PrivateRoute>
             <LaporanStokPage />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/ticket/input"
+        element={
+          <PrivateRoute>
+            <TicketMasukInputPage />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/ticket/laporan"
+        element={
+          <PrivateRoute>
+            <TicketMasukLaporanPage />
           </PrivateRoute>
         }
       />
