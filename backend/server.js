@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth.js";
 import laporanRoutes from "./routes/laporan.js";
 import ticketRoutes from "./routes/ticket.js";
 import studioRoutes from "./routes/studio.js";
+import memberParkirRoutes from "./routes/memberParkir.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,6 +24,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/laporan", laporanRoutes);
 app.use("/api/ticket", ticketRoutes);
 app.use("/api/studio", studioRoutes);
+app.use("/api/member-parkir", memberParkirRoutes);
 
 app.get("/", (req, res) => {
   res.send("Inventory API is running!");

@@ -109,6 +109,28 @@ export default function Sidebar({ isOpen, onClose }) {
           <FontAwesomeIcon icon={faFileLines} className="mr-2" />
           Laporan Tiket Penonton
         </Link>
+
+        <Link
+          to="/parkir/input"
+          className={`block px-4 py-2 mt-2 rounded hover:bg-slate-400 ${
+            isActive("/parkir/input")
+              ? "bg-slate-500 text-white font-semibold"
+              : ""
+          }`}
+        >
+          🚗 Data Member Parkir
+        </Link>
+
+        <Link
+          to="/parkir/laporan"
+          className={`block px-4 py-2 mt-1 rounded hover:bg-slate-400 ${
+            isActive("/parkir/laporan")
+              ? "bg-slate-500 text-white font-semibold"
+              : ""
+          }`}
+        >
+          📋 Laporan Member Parkir
+        </Link>
       </nav>
 
       {/* Logout - Diletakkan paling bawah */}

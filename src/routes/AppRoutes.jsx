@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute"; // ✅ di folder yang sama
 
 // Halaman Umum
@@ -14,6 +14,8 @@ import BarangKeluarReportPage from "../pages/BarangKeluarReportPage";
 import LaporanStokPage from "../pages/LaporanStokPage";
 import TicketMasukInputPage from "../pages/TicketMasukInputPage";
 import TicketMasukLaporanPage from "../pages/TicketMasukLaporanPage";
+import MemberParkirInputPage from "../pages/MemberParkirInputPage";
+import MemberParkirReportPage from "../pages/MemberParkirReportPage";
 
 // Fallback
 import NotFound from "../pages/NotFound";
@@ -21,6 +23,8 @@ import NotFound from "../pages/NotFound";
 export default function AppRoutes() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
       {/* Halaman Umum */}
       <Route path="/welcome" element={<WelcomeScreen />} />
       <Route path="/login" element={<LoginPage />} />
@@ -90,6 +94,23 @@ export default function AppRoutes() {
         element={
           <PrivateRoute>
             <TicketMasukLaporanPage />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/parkir/input"
+        element={
+          <PrivateRoute>
+            <MemberParkirInputPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/parkir/laporan"
+        element={
+          <PrivateRoute>
+            <MemberParkirReportPage />
           </PrivateRoute>
         }
       />
