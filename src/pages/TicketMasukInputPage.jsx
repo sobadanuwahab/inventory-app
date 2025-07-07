@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Layout from "../components/Layout";
+import { useNavigate } from "react-router-dom";
 
 export default function TicketMasukInputPage() {
   const [form, setForm] = useState({
@@ -12,21 +13,29 @@ export default function TicketMasukInputPage() {
     keterangan: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:5000/api/ticket", form);
-    alert("Tiket masuk berhasil disimpan!");
-    setForm({
-      judul_film: "",
-      lokasi_studio: "",
-      petugas: "",
-      jumlah_masuk: "",
-      jumlah_penonton: "",
-      keterangan: "",
-    });
+    try {
+      await axios.post("http://localhost:5000/api/ticket", form);
+      alert("Tiket masuk berhasil disimpan!");
+      navigate("/dashboard");
+      setForm({
+        judul_film: "",
+        lokasi_studio: "",
+        petugas: "",
+        jumlah_masuk: "",
+        jumlah_penonton: "",
+        keterangan: "",
+      });
+    } catch (err) {
+      console.error("Gagal menyimpan data:", err);
+      alert("Gagal menyimpan data.");
+    }
   };
 
   return (
