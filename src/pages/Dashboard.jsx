@@ -55,7 +55,7 @@ export default function Dashboard() {
         }`}
       >
         <div
-          className="min-h-[670px] bg-cover bg-center"
+          className="min-h-[580px] bg-cover bg-center"
           style={{ backgroundImage: "url('/bg-cinema2.jpg')" }}
         >
           <div className="px-4 pt-4 pb-12 sm:px-6 md:px-8 lg:px-12">

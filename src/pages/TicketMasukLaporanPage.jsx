@@ -45,7 +45,7 @@ export default function TicketMasukLaporanPage() {
   return (
     <Layout>
       <div
-        className="min-h-[670px] bg-cover bg-center"
+        className="min-h-[580px] bg-cover bg-center"
         style={{ backgroundImage: "url('/bg-cinema3.jpeg')" }}
       >
         <div className="px-4 pt-4 pb-12 sm:px-6 sm:pt-6 sm:pb-12 md:px-8 md:pt-8 md:pb-12 lg:px-12 lg:pt-12 lg:pb-16">

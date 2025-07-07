@@ -74,42 +74,33 @@ export default function TicketMasukInputPage() {
     <Layout>
       <div
         className="flex min-h-full bg-cover bg-center"
-        style={{ backgroundImage: "url('/bg-cinema.jpg')" }}
+        style={{ backgroundImage: "url('/bg-cinema.png')" }}
       >
-        {/* Kiri (kosong atau bisa berisi ilustrasi/branding) */}
-        <div className="w-1/2 hidden lg:block"></div>
-
         {/* Kanan (form input) */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-4">
-          <div className="w-full space-y-4 bg-white p-2 rounded shadow">
+          <div className="w-4/5 space-y-2 bg-white p-4 rounded shadow">
             <h1 className="text-2xl font-bold mb-4 text-slate-700">
-              Input Tiket Masuk
+              Input Data Tiket
             </h1>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* ✅ Checkbox Data Show */}
-              <div className="mb-4">
-                <label className="block mb-1 font-medium text-sm text-slate-700">
-                  Data Show:
-                </label>
-                <select
-                  name="data_show"
-                  value={form.data_show}
-                  onChange={(e) =>
-                    setForm((prev) => ({ ...prev, data_show: e.target.value }))
-                  }
-                  className="w-full border p-2 rounded"
-                  required
-                >
-                  <option value="">-- Pilih Show --</option>
-                  <option value="SHOW 1">SHOW 1</option>
-                  <option value="SHOW 2">SHOW 2</option>
-                  <option value="SHOW 3">SHOW 3</option>
-                  <option value="SHOW 4">SHOW 4</option>
-                  <option value="SHOW 5">SHOW 5</option>
-                  <option value="SHOW 6">SHOW 6</option>
-                </select>
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-2">
+              <select
+                name="data_show"
+                value={form.data_show}
+                onChange={(e) =>
+                  setForm((prev) => ({ ...prev, data_show: e.target.value }))
+                }
+                className="w-full border p-2 rounded"
+                required
+              >
+                <option value="">-- Pilih Show --</option>
+                <option value="SHOW 1">SHOW 1</option>
+                <option value="SHOW 2">SHOW 2</option>
+                <option value="SHOW 3">SHOW 3</option>
+                <option value="SHOW 4">SHOW 4</option>
+                <option value="SHOW 5">SHOW 5</option>
+                <option value="SHOW 6">SHOW 6</option>
+              </select>
 
               <input
                 name="judul_film"
