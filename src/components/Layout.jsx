@@ -7,6 +7,10 @@ export default function Layout({ children }) {
   const [show, setShow] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const stored = localStorage.getItem("user");
+  const currentUser = stored ? JSON.parse(stored) : null;
+  const lokasiBioskop = currentUser?.lokasi_bioskop || "LOKASI_BIOSKOP...";
+
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 100);
     return () => clearTimeout(timer);
@@ -36,7 +40,7 @@ export default function Layout({ children }) {
               className="text-4xl font-semibold text-yellow-500 uppercase tracking-widest text-center w-full"
               style={{ fontFamily: "Russo One, Bungee, Poppins, sans-serif" }}
             >
-              SUMMARECON MAL SERPONG XXI
+              {lokasiBioskop}
             </h1>
           </header>
 

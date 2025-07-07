@@ -7,11 +7,6 @@ import LoginPage from "../pages/LoginPage";
 
 // Halaman Login-Protected
 import Dashboard from "../pages/Dashboard";
-import BarangMasukInputPage from "../pages/BarangMasukInputPage";
-import BarangMasukReportPage from "../pages/BarangMasukReportPage";
-import BarangKeluarInputPage from "../pages/BarangKeluarInputPage";
-import BarangKeluarReportPage from "../pages/BarangKeluarReportPage";
-import LaporanStokPage from "../pages/LaporanStokPage";
 import TicketMasukInputPage from "../pages/TicketMasukInputPage";
 import TicketMasukLaporanPage from "../pages/TicketMasukLaporanPage";
 import MemberParkirInputPage from "../pages/MemberParkirInputPage";
@@ -35,47 +30,6 @@ export default function AppRoutes() {
         element={
           <PrivateRoute>
             <Dashboard />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/barang-masuk/input"
-        element={
-          <PrivateRoute>
-            <BarangMasukInputPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/barang-masuk/laporan"
-        element={
-          <PrivateRoute>
-            <BarangMasukReportPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/barang-keluar/input"
-        element={
-          <PrivateRoute>
-            <BarangKeluarInputPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/barang-keluar/laporan"
-        element={
-          <PrivateRoute>
-            <BarangKeluarReportPage />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/laporan/stok"
-        element={
-          <PrivateRoute>
-            <LaporanStokPage />
           </PrivateRoute>
         }
       />

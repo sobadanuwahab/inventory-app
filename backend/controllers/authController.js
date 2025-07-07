@@ -30,6 +30,7 @@ export const login = (req, res) => {
         id: user.id,
         username: user.username,
         role: user.role,
+        lokasi_bioskop: user.lokasi_bioskop, // ✅ tambahkan ini
       },
     });
   });

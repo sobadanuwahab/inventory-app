@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function TicketMasukInputPage() {
   const [form, setForm] = useState({
+    data_show: "",
     judul_film: "",
     lokasi_studio: "",
     petugas: "",
@@ -15,16 +16,47 @@ export default function TicketMasukInputPage() {
 
   const navigate = useNavigate();
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  // ✅ Pastikan ini sebelum handleSubmit
+  const stored = localStorage.getItem("user");
+  const currentUser = stored ? JSON.parse(stored) : null;
+  const user_id = currentUser?.id;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  // ✅ Handle checkbox multiple
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setForm((prev) => ({
+        ...prev,
+        data_show: [...prev.data_show, value],
+      }));
+    } else {
+      setForm((prev) => ({
+        ...prev,
+        data_show: prev.data_show.filter((v) => v !== value),
+      }));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.data_show.length === 0) {
+      return alert("Minimal pilih 1 SHOW!");
+    }
+
     try {
-      await axios.post("http://localhost:5000/api/ticket", form);
+      await axios.post("http://localhost:5000/api/ticket", {
+        ...form,
+        user_id,
+      });
       alert("Tiket masuk berhasil disimpan!");
       navigate("/dashboard");
       setForm({
+        data_show: "",
         judul_film: "",
         lokasi_studio: "",
         petugas: "",
@@ -48,13 +80,37 @@ export default function TicketMasukInputPage() {
         <div className="w-1/2 hidden lg:block"></div>
 
         {/* Kanan (form input) */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-          <div className="max-w-xl w-full space-y-4 bg-white p-6 rounded shadow">
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-4">
+          <div className="w-full space-y-4 bg-white p-2 rounded shadow">
             <h1 className="text-2xl font-bold mb-4 text-slate-700">
               Input Tiket Masuk
             </h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* ✅ Checkbox Data Show */}
+              <div className="mb-4">
+                <label className="block mb-1 font-medium text-sm text-slate-700">
+                  Data Show:
+                </label>
+                <select
+                  name="data_show"
+                  value={form.data_show}
+                  onChange={(e) =>
+                    setForm((prev) => ({ ...prev, data_show: e.target.value }))
+                  }
+                  className="w-full border p-2 rounded"
+                  required
+                >
+                  <option value="">-- Pilih Show --</option>
+                  <option value="SHOW 1">SHOW 1</option>
+                  <option value="SHOW 2">SHOW 2</option>
+                  <option value="SHOW 3">SHOW 3</option>
+                  <option value="SHOW 4">SHOW 4</option>
+                  <option value="SHOW 5">SHOW 5</option>
+                  <option value="SHOW 6">SHOW 6</option>
+                </select>
+              </div>
+
               <input
                 name="judul_film"
                 value={form.judul_film}
@@ -77,6 +133,10 @@ export default function TicketMasukInputPage() {
                 <option value="STUDIO 4">STUDIO 4</option>
                 <option value="STUDIO 5">STUDIO 5</option>
                 <option value="STUDIO 6">STUDIO 6</option>
+                <option value="STUDIO 6">STUDIO 7</option>
+                <option value="STUDIO 6">STUDIO 8</option>
+                <option value="STUDIO 6">STUDIO 9</option>
+                <option value="STUDIO 6">STUDIO 10</option>
                 <option value="STUDIO PREMIERE 1">STUDIO PREMIERE 1</option>
                 <option value="STUDIO PREMIERE 2">STUDIO PREMIERE 2</option>
                 <option value="STUDIO IMAX">STUDIO IMAX</option>

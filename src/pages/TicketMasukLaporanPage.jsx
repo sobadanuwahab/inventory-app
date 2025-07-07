@@ -11,6 +11,11 @@ export default function TicketMasukLaporanPage() {
     lokasi: "",
   });
 
+  const stored = localStorage.getItem("user");
+  const currentUser = stored ? JSON.parse(stored) : null;
+  const user_id = currentUser?.id;
+  const role = currentUser?.role;
+
   const handleChange = (e) =>
     setFilters({ ...filters, [e.target.name]: e.target.value });
 
@@ -19,9 +24,12 @@ export default function TicketMasukLaporanPage() {
     setIsFiltered(true);
     setLoading(true);
     try {
-      const params = {};
-      if (filters.tanggal) params.tanggal = filters.tanggal;
-      if (filters.lokasi) params.lokasi = filters.lokasi;
+      const params = {
+        tanggal: filters.tanggal,
+        lokasi: filters.lokasi,
+        user_id,
+        role,
+      };
 
       const res = await axios.get("http://localhost:5000/api/ticket", {
         params,
@@ -37,7 +45,7 @@ export default function TicketMasukLaporanPage() {
   return (
     <Layout>
       <div
-        className="min-h-[580px] bg-cover bg-center"
+        className="min-h-[670px] bg-cover bg-center"
         style={{ backgroundImage: "url('/bg-cinema3.jpeg')" }}
       >
         <div className="px-4 pt-4 pb-12 sm:px-6 sm:pt-6 sm:pb-12 md:px-8 md:pt-8 md:pb-12 lg:px-12 lg:pt-12 lg:pb-16">
@@ -105,6 +113,7 @@ export default function TicketMasukLaporanPage() {
                     <tr>
                       <th className="p-2 border border-gray-300">No</th>
                       <th className="p-2 border border-gray-300">Tanggal</th>
+                      <th className="p-2 border border-gray-300">Show</th>
                       <th className="p-2 border border-gray-300">Judul Film</th>
                       <th className="p-2 border border-gray-300">Studio</th>
                       <th className="p-2 border border-gray-300">Petugas</th>
@@ -122,6 +131,9 @@ export default function TicketMasukLaporanPage() {
                         <td className="p-2 border border-gray-300">{i + 1}</td>
                         <td className="p-2 border border-gray-300 text-sm text-gray-500">
                           {new Date(item.tanggal).toLocaleString()}
+                        </td>
+                        <td className="p-2 border border-gray-300">
+                          {item.data_show}
                         </td>
                         <td className="p-2 border border-gray-300">
                           {item.judul_film}

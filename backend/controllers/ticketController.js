@@ -1,7 +1,8 @@
 import conn from "../config/db.js";
 
+// Ambil data tiket dengan filter
 export const getTicketMasuk = (req, res) => {
-  const { tanggal, lokasi } = req.query;
+  const { tanggal, lokasi, user_id, role } = req.query;
 
   let sql = "SELECT * FROM ticket_masuk WHERE 1=1";
   const params = [];
@@ -16,6 +17,12 @@ export const getTicketMasuk = (req, res) => {
     params.push(`%${lokasi}%`);
   }
 
+  // Jika bukan admin, hanya tampilkan data milik user tersebut
+  if (role !== "admin" && user_id) {
+    sql += " AND user_id = ?";
+    params.push(user_id);
+  }
+
   sql += " ORDER BY tanggal DESC";
 
   conn.query(sql, params, (err, result) => {
@@ -24,8 +31,11 @@ export const getTicketMasuk = (req, res) => {
   });
 };
 
+// Tambahkan data tiket masuk
 export const createTicketMasuk = (req, res) => {
   const {
+    user_id,
+    data_show,
     judul_film,
     lokasi_studio,
     jumlah_masuk,
@@ -33,29 +43,37 @@ export const createTicketMasuk = (req, res) => {
     keterangan,
     petugas,
   } = req.body;
+
   const sql = `
-    INSERT INTO ticket_masuk (judul_film, lokasi_studio, jumlah_masuk, jumlah_penonton, keterangan, petugas)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO ticket_masuk 
+    (user_id, data_show, judul_film, lokasi_studio, jumlah_masuk, jumlah_penonton, keterangan, petugas)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
-  conn.query(
-    sql,
-    [
-      judul_film,
-      lokasi_studio,
-      jumlah_masuk,
-      jumlah_penonton,
-      keterangan,
-      petugas,
-    ],
-    (err, result) => {
-      if (err) return res.status(500).json({ error: err });
-      res
-        .status(201)
-        .json({ message: "Tiket masuk berhasil dicatat", id: result.insertId });
+
+  const values = [
+    user_id,
+    data_show,
+    judul_film,
+    lokasi_studio,
+    jumlah_masuk,
+    jumlah_penonton,
+    keterangan,
+    petugas,
+  ];
+
+  conn.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("Query error:", err);
+      return res.status(500).json({ error: err.message });
     }
-  );
+    res.status(201).json({
+      message: "Tiket masuk berhasil dicatat",
+      id: result.insertId,
+    });
+  });
 };
 
+// Laporan jumlah penonton per studio
 export const getJumlahPenontonPerStudio = (req, res) => {
   const sql = `
     SELECT 
@@ -79,27 +97,42 @@ export const getJumlahPenontonPerStudio = (req, res) => {
   });
 };
 
+// Data tiket masuk hari ini per studio
 export const getTiketHariIniPerStudio = (req, res) => {
-  const sql = `
-    SELECT lokasi_studio, judul_film, SUM(jumlah_penonton) AS total_penonton
+  const { user_id, role } = req.query;
+
+  let sql = `
+    SELECT lokasi_studio, judul_film, data_show, jumlah_penonton
     FROM ticket_masuk
     WHERE DATE(tanggal) = CURDATE()
-    GROUP BY lokasi_studio, judul_film
-    ORDER BY lokasi_studio, judul_film
   `;
+  const params = [];
 
-  conn.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: err });
+  if (role !== "admin" && user_id) {
+    sql += " AND user_id = ?";
+    params.push(user_id);
+  }
 
-    // Gabungkan berdasarkan lokasi_studio
+  sql += " ORDER BY lokasi_studio ASC, id ASC";
+
+  conn.query(sql, params, (err, results) => {
+    if (err) {
+      console.error("Query error:", err);
+      return res.status(500).json({ error: err });
+    }
+
     const grouped = {};
     results.forEach((row) => {
+      const show = row.data_show || "-";
+
       if (!grouped[row.lokasi_studio]) {
         grouped[row.lokasi_studio] = [];
       }
+
       grouped[row.lokasi_studio].push({
         judul_film: row.judul_film,
-        total_penonton: row.total_penonton,
+        show: show,
+        total_penonton: row.jumlah_penonton,
       });
     });
 
