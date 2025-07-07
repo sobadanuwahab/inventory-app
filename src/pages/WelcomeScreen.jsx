@@ -18,7 +18,7 @@ export default function WelcomeScreen() {
         <h1 className="text-3xl font-bold mb-4 animate-pulse">
           Selamat Datang di Aplikasi Monitoring Tiket
         </h1>
-        <p className="text-lg">Menyiapkan dashboard Anda...</p>
+        <p className="text-lg">Menyiapkan halaman...</p>
       </div>
     </div>
   );

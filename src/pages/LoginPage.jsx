@@ -69,7 +69,7 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="text-xs text-gray-400 text-center">
-          &copy; {new Date().getFullYear()} Summarecon XXI. All rights reserved.
+          &copy; {new Date().getFullYear()} Monitoring Tiket Regional.
         </p>
       </div>
     </div>
