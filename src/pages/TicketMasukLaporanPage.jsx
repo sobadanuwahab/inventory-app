@@ -123,6 +123,7 @@ export default function TicketMasukLaporanPage() {
                       <th className="p-2 border border-gray-300">
                         Jumlah Penonton
                       </th>
+                      <th className="p-2 border border-gray-300">Keterangan</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -149,6 +150,9 @@ export default function TicketMasukLaporanPage() {
                         </td>
                         <td className="p-2 border border-gray-300">
                           {item.jumlah_penonton}
+                        </td>
+                        <td className="p-2 border border-gray-300">
+                          {item.keterangan}
                         </td>
                       </tr>
                     ))}
